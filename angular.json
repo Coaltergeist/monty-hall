@@ -123,8 +123,13 @@
               "devServerTarget": "monty-hall:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "monty-hall"
 }

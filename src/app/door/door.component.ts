@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DoorComponent implements OnInit {
 
+  unselected = true;
+  selected = false;
+  gone = false;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onSelect() {
+    this.unselected = false;
+    this.selected  = true;
   }
 
 }
