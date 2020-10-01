@@ -1,62 +1,12 @@
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<style>
-  .center {
-    display: flex;
-    justify-content: center;
-    align-items: center
-  }
-
- .is-white {
-   color: white;
- }
-
- ul.circle {
-  list-style-type: circle;
-  padding-left: 5%;
- }
-</style>
-
-
-<div class="columns">
-  <div class="column is-10 is-offset-1">
-    <div class="box has-background-dark">
-      <p class="content is-large is-white">Instructions:</p>
-      <ul class="content is-white circle">
-        <li>Thank you for participating.</li>
-        <li>The goal is to win as many times as you can.</li>
-        <li>Items will appear on the screen.</li>
-        <li>You can select these items by clicking on them with the mouse.</li>
-        <li>For example, if you wanted to select the item on the bottom left, you would hover your mouse over the item and click.</li>
-        <li>Press the button below to begin.</li>
-      </ul>
-    </div>
-  </div>
-</div>
-<div>
+<app-instruction id="instruction" [hidden]="!showInstruction"></app-instruction>
+<div class="container" [hidden]="!showInstruction">
   <div class="columns">
-    <div class="column is-half is-offset-one-quarter">
-      <p class="center">
-        <button class="button is-link is-rounded is-large">Begin</button>
-      </p>
+    <div class="column has-text-centered">
+      <button class="button is-link is-rounded is-large" (click)="start()">Begin</button>
     </div>
   </div>
 </div>
-
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-
-
+<app-control id="control" [hidden]="!showControl"></app-control>
+<app-experimental id="experimental" [hidden]="!showExperimental"></app-experimental>
+<app-survey id="survey" [hidden]="!showSurvey"></app-survey>
 <router-outlet></router-outlet>
