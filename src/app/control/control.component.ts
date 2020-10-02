@@ -10,6 +10,11 @@ export class ControlComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      var element = document.getElementById("passthrough");
+      element.classList.remove("unclickable");
+      element.classList.add("clickable");
+    }, 1000);
     this.startTesting();
   }
 

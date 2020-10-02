@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Evaluation } from '../evaluation';
+import { evaluation } from '../state';
 
 @Component({
   selector: 'app-root',
@@ -25,5 +27,6 @@ export class AppComponent {
       this.isControl = false;
       this.showControl = true;
     }
+    evaluation.setIsControl(this.isControl);
   }
 }
