@@ -42,7 +42,7 @@ export class DoorComponent implements OnInit {
     this.unselected = false;
     setTimeout(() => {
       this.gone = false;
-    }, 500);
+    }, 1000);
   }
 
   onSelect() {
