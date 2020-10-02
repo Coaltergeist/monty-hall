@@ -16,17 +16,15 @@ export class DoorComponent implements OnInit {
   gone = false;
   number = 0;
 
+  selectable = true;
+
   constructor() { }
 
   ngOnInit(): void {
     this.number = parseInt(this.door);
 
-    const timer = setInterval(() => {
-      if (this.checkIfDisabled()) {
-        clearInterval(timer);
-        this.disableDoor();
-      }
-    }, 10);
+    this.startCheckingDisabled();
+    this.startCheckingSelected();
   }
 
   checkIfDisabled(): boolean {
@@ -37,17 +35,48 @@ export class DoorComponent implements OnInit {
   }
 
   disableDoor() {
-    this.selected = false;
     this.gone = true;
     this.unselected = false;
+    this.selected = false;
+    this.selectable = false;
     setTimeout(() => {
       this.gone = false;
+      this.selectable = true;
     }, 1000);
   }
 
   onSelect() {
-    this.unselected = false;
-    this.selected  = true;
-    evaluation.disableRandom(this.number);
+    if (this.selectable) {
+      evaluation.setSelected(this.number);
+      evaluation.disableRandom(this.number);
+      evaluation.selection++;
+    }
+  }
+
+  startCheckingDisabled() {
+    const timer = setInterval(() => {
+      if (this.checkIfDisabled()) {
+        this.disableDoor();
+        clearInterval(timer);
+      }
+    }, 10);
+  }
+
+  startCheckingSelected() {
+    const timer = setInterval(() => {
+      if (evaluation.selectedDoor == this.number) {
+        this.selected = true;
+        this.unselected = false;
+        this.selectable = false;
+        setTimeout(() => {
+          this.selectable = true;
+          this.selected = false;
+          this.unselected = true;
+          evaluation.setSelected(0);
+        }, 1000);
+      } else {
+        this.selected = false;
+      }
+    }, 10);
   }
 }

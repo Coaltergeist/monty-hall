@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { evaluation } from '../../state';
 
 @Component({
   selector: 'app-control',
@@ -19,7 +20,11 @@ export class ControlComponent implements OnInit {
   }
 
   startTesting() {
-
+    const timer = setInterval(() => {
+      if (evaluation.selection == 2) {
+        evaluation.selection = 0;
+        this.ngOnInit();
+      }
+    }, 10);
   }
-
 }
