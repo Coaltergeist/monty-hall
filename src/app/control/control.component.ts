@@ -7,12 +7,19 @@ import { evaluation } from '../../state';
   styleUrls: ['./control.component.sass']
 })
 export class ControlComponent implements OnInit {
+  win: boolean;
+  lose: boolean;
 
-  constructor() { }
+  constructor() {
+    this.win = false;
+    this.lose = false;
+  }
 
   ngOnInit(): void {
+    var element = document.getElementById("passthrough");
+    element.classList.remove("clickable");
+    element.classList.add("unclickable");
     setTimeout(() => {
-      var element = document.getElementById("passthrough");
       element.classList.remove("unclickable");
       element.classList.add("clickable");
     }, 1000);
@@ -21,10 +28,17 @@ export class ControlComponent implements OnInit {
 
   startTesting() {
     const timer = setInterval(() => {
-      if (evaluation.selection == 2) {
-        evaluation.selection = 0;
-        this.ngOnInit();
-      }
+      // if (evaluation.displayWin == 1) {
+      //   this.win = true;
+      //   setInterval(() => {
+      //     this.win = false;
+      //   }, 1000);
+      // } else if (evaluation.displayWin == 2) {
+      //   this.lose = true;
+      //   setInterval(() => {
+      //     this.lose = false;
+      //   }, 1000);
+      // }
     }, 10);
   }
 }

@@ -28,5 +28,15 @@ export class AppComponent {
       this.showControl = true;
     }
     evaluation.setIsControl(this.isControl);
+
+    const timer = setInterval(() => {
+      if (evaluation.isCurrentTestControl()) {
+        this.showExperimental = false;
+        this.showControl = true;
+      } else {
+        this.showExperimental = true;
+        this.showControl = false;
+      }
+    }, 10);
   }
 }

@@ -11,72 +11,105 @@ import { evaluation } from '../../state'
 export class DoorComponent implements OnInit {
   @Input() door: string;
 
-  unselected = true;
-  selected = false;
-  gone = false;
-  number = 0;
-
-  selectable = true;
-
-  constructor() { }
+  unselected: boolean;
+  selected: boolean;
+  gone: boolean;
+  disabled: boolean;
+  number: number;
+  currentTest: number;
+  //timerList: NodeJS.Timeout[]
 
   ngOnInit(): void {
+    this.currentTest = evaluation.currentTest;
     this.number = parseInt(this.door);
+    this.switchState(doorState.UNSELECTED);
 
     this.startCheckingDisabled();
-    this.startCheckingSelected();
+    this.startCheckingTestEnd();
+  }
+
+  switchState(state: doorState) {
+    switch (state) {
+      case doorState.UNSELECTED:
+        this.unselected = true;
+        this.selected = false;
+        this.gone = false;
+        this.disabled = false;
+        break;
+      case doorState.SELECTED:
+        this.unselected = false;
+        this.selected = true;
+        this.gone = false;
+        this.disabled = false;
+        break;
+      case doorState.GONE:
+        this.unselected = false;
+        this.selected = false;
+        this.gone = true;
+        this.disabled = false;
+        break;
+      case doorState.DISABLED:
+        this.unselected = false;
+        this.selected = false;
+        this.gone = false;
+        this.disabled = true;
+        break;
+    }
+  }
+
+  onSelect() {
+    this.switchState(doorState.SELECTED);
+    evaluation.selection++;
+    if (evaluation.selection == 1) {
+      evaluation.firstSelection = this.number;
+      evaluation.disableRandom(this.number);
+      setTimeout(() => {
+        this.switchState(doorState.UNSELECTED);
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        evaluation.calculateWin(evaluation.firstSelection == this.number)
+        // evaluation.displayWin = 0;
+        evaluation.selection = 0;
+        this.ngOnInit();
+      }, 1000);
+    }
   }
 
   checkIfDisabled(): boolean {
-    if (evaluation.disabledDoor == this.number) {
+    if (evaluation.disabledDoorList.includes(this.number)) {
       return true;
     }
     return false;
   }
 
-  disableDoor() {
-    this.gone = true;
-    this.unselected = false;
-    this.selected = false;
-    this.selectable = false;
-    setTimeout(() => {
-      this.gone = false;
-      this.selectable = true;
-    }, 1000);
-  }
-
-  onSelect() {
-    if (this.selectable) {
-      evaluation.setSelected(this.number);
-      evaluation.disableRandom(this.number);
-      evaluation.selection++;
-    }
-  }
-
   startCheckingDisabled() {
     const timer = setInterval(() => {
       if (this.checkIfDisabled()) {
-        this.disableDoor();
         clearInterval(timer);
+        this.switchState(doorState.DISABLED);
+        setTimeout(() => {
+          this.switchState(doorState.GONE);
+        }, 1000);
       }
     }, 10);
   }
 
-  startCheckingSelected() {
+  startCheckingTestEnd() {
     const timer = setInterval(() => {
-      if (evaluation.selectedDoor == this.number) {
-        this.selected = true;
-        this.unselected = false;
-        this.selectable = false;
-        setTimeout(() => {
-          this.selectable = true;
-          this.selected = false;
-          this.unselected = true;
-          evaluation.setSelected(0);
-        }, 1000);
-      } else {
-        this.selected = false;
+      if (evaluation.currentTest != this.currentTest) {
+        clearInterval(timer);
+        evaluation.resetTest();
+        this.ngOnInit();
+        this.currentTest = evaluation.currentTest;
       }
     }, 10);
   }
+}
+
+enum doorState  {
+  UNSELECTED,
+  SELECTED,
+  GONE,
+  DISABLED,
 }
