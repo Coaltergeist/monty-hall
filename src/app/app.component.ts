@@ -24,7 +24,7 @@ export class AppComponent {
       this.isControl = false;
       this.showControl = true;
     } else {
-      this.isControl = false;
+      this.isControl = true;
       this.showControl = true;
     }
     evaluation.setIsControl(this.isControl);

@@ -68,7 +68,7 @@ export class DoorComponent implements OnInit {
       }, 1000);
     } else {
       setTimeout(() => {
-        evaluation.calculateWin(evaluation.firstSelection == this.number)
+        evaluation.calculateWin(evaluation.firstSelection != this.number)
         // evaluation.displayWin = 0;
         evaluation.selection = 0;
         this.ngOnInit();

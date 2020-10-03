@@ -43,9 +43,11 @@ export class ControlComponent implements OnInit {
           this.currentTest = evaluation.currentTest;
           this.win = false;
           this.lose = false;
-          this.testing = true;
-        }, 1000);
+          setTimeout(() => {
+            this.testing = true;
+          }, 1000);
+        }, 2000);
       }
-    }, 10);
+    }, 1);
   }
 }

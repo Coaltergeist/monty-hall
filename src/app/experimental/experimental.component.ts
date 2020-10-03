@@ -47,7 +47,7 @@ export class ExperimentalComponent implements OnInit {
           this.testing = true;
         }, 1000);
       }
-    }, 10);
+    }, 1);
   }
 
 }
