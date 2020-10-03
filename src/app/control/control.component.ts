@@ -4,15 +4,19 @@ import { evaluation } from '../../state';
 @Component({
   selector: 'app-control',
   templateUrl: './control.component.html',
-  styleUrls: ['./control.component.sass']
+  styleUrls: ['./control.component.sass'],
 })
 export class ControlComponent implements OnInit {
   win: boolean;
   lose: boolean;
+  testing: boolean;
+  currentTest: number;
 
   constructor() {
     this.win = false;
     this.lose = false;
+    this.testing = true;
+    this.currentTest = 0;
   }
 
   ngOnInit(): void {
@@ -28,17 +32,20 @@ export class ControlComponent implements OnInit {
 
   startTesting() {
     const timer = setInterval(() => {
-      // if (evaluation.displayWin == 1) {
-      //   this.win = true;
-      //   setInterval(() => {
-      //     this.win = false;
-      //   }, 1000);
-      // } else if (evaluation.displayWin == 2) {
-      //   this.lose = true;
-      //   setInterval(() => {
-      //     this.lose = false;
-      //   }, 1000);
-      // }
+      if (evaluation.currentTest != this.currentTest) {
+        if (evaluation.isTestWinList[this.currentTest]) {
+          this.win = true;
+        } else {
+          this.lose = true;
+        }
+        this.testing = false;
+        setTimeout(() => {
+          this.currentTest = evaluation.currentTest;
+          this.win = false;
+          this.lose = false;
+          this.testing = true;
+        }, 1000);
+      }
     }, 10);
   }
 }

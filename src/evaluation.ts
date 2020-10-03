@@ -7,6 +7,7 @@ export class Evaluation {
     //public currentTestOver: boolean;
     public disabledDoorList: Number[];
     public isTestControlList: boolean[];
+    public isTestWinList: boolean[];
     public currentTest: number;
     public displayWin: number;
 
@@ -17,6 +18,7 @@ export class Evaluation {
         //this.currentTestOver = false;
         this.currentTest = 0;
         this.isTestControlList = new Array(60);
+        this.isTestWinList = new Array(60);
         this.disabledDoorList = new Array(3);
         this.displayWin = 0;
     }
@@ -67,19 +69,24 @@ export class Evaluation {
     }
 
     public calculateWin(swapped: boolean): boolean {
-        this.currentTest++;
         //console.log(this.currentTest);
         //console.log(this.isCurrentTestControl());
         var x = Math.random();
         if (swapped) {
             if (x > .33) {
+                this.isTestWinList[this.currentTest] = true;
+                this.currentTest++;
                 return true;
             }
         } else {
             if (x > .67) {
+                this.isTestWinList[this.currentTest] = true;
+                this.currentTest++;
                 return true;
             }
         }
+        this.isTestWinList[this.currentTest] = false;
+        this.currentTest++;
         return false;
     }
 

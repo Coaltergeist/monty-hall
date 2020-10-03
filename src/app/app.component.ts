@@ -21,7 +21,7 @@ export class AppComponent {
     this.showInstruction = !this.showInstruction;
     var x = Math.random();
     if (x < .5) {
-      this.isControl = true;
+      this.isControl = false;
       this.showControl = true;
     } else {
       this.isControl = false;
