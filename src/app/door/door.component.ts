@@ -17,15 +17,52 @@ export class DoorComponent implements OnInit {
   disabled: boolean;
   number: number;
   currentTest: number;
+  element: HTMLElement;
   //timerList: NodeJS.Timeout[]
 
   ngOnInit(): void {
+    this.firstTest();
+    this.removeBarrier();
+      
     this.currentTest = evaluation.currentTest;
     this.number = parseInt(this.door);
     this.switchState(doorState.UNSELECTED);
 
     this.startCheckingDisabled();
     this.startCheckingTestEnd();
+  }
+
+  removeBarrier() {
+    this.element = document.getElementById("passthrough");
+    setTimeout(() => {
+      if (this.element != null) {
+        this.element.classList.remove("clickable");
+        this.element.classList.add("unclickable");
+        setTimeout(() => {
+          if (this.element != null) {
+            this.element.classList.remove("unclickable");
+            this.element.classList.add("clickable");
+          }
+        }, 1000);
+      }
+    }, 3100);
+  }
+
+  firstTest() {
+    if (!evaluation.startTesting) {
+      const timer = setInterval(() => {
+        if (evaluation.startTesting) {
+          this.element = document.getElementById("passthrough");
+          this.element.classList.remove("clickable");
+          this.element.classList.add("unclickable");
+          setTimeout(() => {
+            this.element.classList.remove("unclickable");
+            this.element.classList.add("clickable");
+          }, 1000);
+          clearInterval(timer);
+        }
+      }, 10);
+    }
   }
 
   switchState(state: doorState) {
@@ -58,21 +95,28 @@ export class DoorComponent implements OnInit {
   }
 
   onSelect() {
-    this.switchState(doorState.SELECTED);
-    evaluation.selection++;
-    if (evaluation.selection == 1) {
-      evaluation.firstSelection = this.number;
-      evaluation.disableRandom(this.number);
-      setTimeout(() => {
-        this.switchState(doorState.UNSELECTED);
-      }, 1000);
-    } else {
-      setTimeout(() => {
-        evaluation.calculateWin(evaluation.firstSelection != this.number)
-        // evaluation.displayWin = 0;
-        evaluation.selection = 0;
-        this.ngOnInit();
-      }, 1000);
+    if (evaluation.somethingNotSelected) {
+      if (evaluation.selection < 2) {
+        this.switchState(doorState.SELECTED);
+      }
+      evaluation.somethingNotSelected = false;
+      evaluation.selection++;
+      if (evaluation.selection == 1) {
+        evaluation.firstSelection = this.number;
+        evaluation.disableRandom(this.number);
+        setTimeout(() => {
+          this.switchState(doorState.UNSELECTED);
+          evaluation.somethingNotSelected = true;
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          evaluation.somethingNotSelected = true;
+          evaluation.calculateWin(evaluation.firstSelection != this.number)
+          // evaluation.displayWin = 0;
+          evaluation.selection = 0;
+          this.ngOnInit();
+        }, 1000);
+      }
     }
   }
 
@@ -89,7 +133,7 @@ export class DoorComponent implements OnInit {
         clearInterval(timer);
         this.switchState(doorState.DISABLED);
         setTimeout(() => {
-          this.switchState(doorState.GONE);
+          this.switchState(doorState.DISABLED);
         }, 1000);
       }
     }, 10);

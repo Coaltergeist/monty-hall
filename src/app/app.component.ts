@@ -18,6 +18,7 @@ export class AppComponent {
   isControl = true
 
   start() {
+    evaluation.startTesting = true;
     this.showInstruction = !this.showInstruction;
     var x = Math.random();
     if (x < .5) {
@@ -30,13 +31,15 @@ export class AppComponent {
     evaluation.setIsControl(this.isControl);
 
     const timer = setInterval(() => {
-      if (evaluation.isCurrentTestControl()) {
-        this.showExperimental = false;
-        this.showControl = true;
-      } else {
-        this.showExperimental = true;
-        this.showControl = false;
-      }
+      setTimeout(() => {
+        if (evaluation.isCurrentTestControl()) {
+          this.showExperimental = false;
+          this.showControl = true;
+        } else {
+          this.showExperimental = true;
+          this.showControl = false;
+        }
+      }, 100);
     }, 10);
   }
 }

@@ -20,13 +20,6 @@ export class ControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    var element = document.getElementById("passthrough");
-    element.classList.remove("clickable");
-    element.classList.add("unclickable");
-    setTimeout(() => {
-      element.classList.remove("unclickable");
-      element.classList.add("clickable");
-    }, 1000);
     this.startTesting();
   }
 

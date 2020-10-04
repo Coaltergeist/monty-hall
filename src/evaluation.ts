@@ -10,10 +10,14 @@ export class Evaluation {
     public isTestWinList: boolean[];
     public currentTest: number;
     public displayWin: number;
+    public somethingNotSelected: boolean;
+    public startTesting: boolean;
 
     constructor() {
+        this.startTesting = false;
         //this.disabledDoor = 0;
         this.selectedDoor = 0;
+        this.somethingNotSelected = true;
         this.selection = 0;
         //this.currentTestOver = false;
         this.currentTest = 0;

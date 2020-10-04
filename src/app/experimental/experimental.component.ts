@@ -21,13 +21,6 @@ export class ExperimentalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    var element = document.getElementById("passthrough");
-    element.classList.remove("clickable");
-    element.classList.add("unclickable");
-    setTimeout(() => {
-      element.classList.remove("unclickable");
-      element.classList.add("clickable");
-    }, 1000);
     this.startTesting();
   }
 
@@ -44,8 +37,10 @@ export class ExperimentalComponent implements OnInit {
           this.currentTest = evaluation.currentTest;
           this.win = false;
           this.lose = false;
-          this.testing = true;
-        }, 1000);
+          setTimeout(() => {
+            this.testing = true;
+          }, 1000);
+        }, 2000);
       }
     }, 1);
   }
