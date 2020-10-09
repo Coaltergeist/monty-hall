@@ -21,15 +21,17 @@ export class DoorComponent implements OnInit {
   //timerList: NodeJS.Timeout[]
 
   ngOnInit(): void {
-    this.firstTest();
-    this.removeBarrier();
-      
-    this.currentTest = evaluation.currentTest;
-    this.number = parseInt(this.door);
-    this.switchState(doorState.UNSELECTED);
+    if (evaluation.startTesting) {
+      this.firstTest();
+      this.removeBarrier();
+        
+      this.currentTest = evaluation.currentTest;
+      this.number = parseInt(this.door);
+      this.switchState(doorState.UNSELECTED);
 
-    this.startCheckingDisabled();
-    this.startCheckingTestEnd();
+      this.startCheckingDisabled();
+      this.startCheckingTestEnd();
+    }
   }
 
   removeBarrier() {

@@ -9,6 +9,7 @@ import { ExperimentalComponent } from './experimental/experimental.component';
 import { SurveyComponent } from './survey/survey.component';
 import { EndComponent } from './end/end.component';
 import { DoorComponent } from './door/door.component';
+import { ConsentComponent } from './consent/consent.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DoorComponent } from './door/door.component';
     ExperimentalComponent,
     SurveyComponent,
     EndComponent,
-    DoorComponent
+    DoorComponent,
+    ConsentComponent
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ export class Evaluation {
     public displayWin: number;
     public somethingNotSelected: boolean;
     public startTesting: boolean;
+    public testLength = 60;
 
     constructor() {
         this.startTesting = false;
@@ -21,8 +22,8 @@ export class Evaluation {
         this.selection = 0;
         //this.currentTestOver = false;
         this.currentTest = 0;
-        this.isTestControlList = new Array(60);
-        this.isTestWinList = new Array(60);
+        this.isTestControlList = new Array(this.testLength);
+        this.isTestWinList = new Array(this.testLength);
         this.disabledDoorList = new Array(3);
         this.displayWin = 0;
     }
@@ -72,7 +73,7 @@ export class Evaluation {
         this.selectedDoor = door;
     }
 
-    public calculateWin(swapped: boolean): boolean {
+    public calculateWin(swapped: boolean) {
         //console.log(this.currentTest);
         //console.log(this.isCurrentTestControl());
         var x = Math.random();
@@ -80,18 +81,18 @@ export class Evaluation {
             if (x > .33) {
                 this.isTestWinList[this.currentTest] = true;
                 this.currentTest++;
-                return true;
             }
         } else {
             if (x > .67) {
                 this.isTestWinList[this.currentTest] = true;
                 this.currentTest++;
-                return true;
             }
         }
         this.isTestWinList[this.currentTest] = false;
         this.currentTest++;
-        return false;
+        if (this.currentTest >= this.testLength) {
+            this.startTesting = false;
+        }
     }
 
     public disableRandom(door: number) {

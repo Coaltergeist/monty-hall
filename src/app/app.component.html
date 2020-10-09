@@ -1,12 +1,20 @@
-<app-instruction id="instruction" [hidden]="!showInstruction"></app-instruction>
-<div class="container" [hidden]="!showInstruction">
+<app-instruction id="instruction" *ngIf="showInstruction"></app-instruction>
+<div class="container" *ngIf="showInstruction">
   <div class="columns">
     <div class="column has-text-centered">
       <button class="button is-link is-rounded is-large" (click)="start()">Begin</button>
     </div>
   </div>
 </div>
-<app-control id="control" [hidden]="!showControl"></app-control>
-<app-experimental id="experimental" [hidden]="!showExperimental"></app-experimental>
-<app-survey id="survey" [hidden]="!showSurvey"></app-survey>
+<app-control id="control" *ngIf="showControl"></app-control>
+<app-experimental id="experimental" *ngIf="showExperimental"></app-experimental>
+<app-survey id="survey" *ngIf="showSurvey"></app-survey>
+<app-consent id="consent" *ngIf="showConsent"></app-consent>
+<div class="container" *ngIf="showConsent">
+  <div class="columns">
+    <div class="column has-text-centered">
+      <button class="button is-link is-rounded is-large" (click)="instruct()">Show Instructions</button>
+    </div>
+  </div>
+</div>
 <router-outlet></router-outlet>
